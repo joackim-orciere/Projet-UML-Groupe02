@@ -11,6 +11,5 @@ public class Walk extends Shifts {
     public void changeStats(Player player) {
         // TODO : Player.changeHydratation(10)
         // TODO : Player.changeSatiety(10)
-
     }
 }
