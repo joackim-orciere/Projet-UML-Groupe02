@@ -3,7 +3,7 @@ package java.Tiles;
 public abstract class Tile {
     private int x;
     private int y;
-    protected char ASCII = ' ';
+    protected char ASCII;
 
     public Tile(int x, int y)
     {
