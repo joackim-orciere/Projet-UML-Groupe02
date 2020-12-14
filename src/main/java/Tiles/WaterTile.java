@@ -2,7 +2,7 @@ package java.Tiles;
 
 public class WaterTile extends Tile
 {
-    WaterTile(int x, int y)
+    public WaterTile(int x, int y)
     {
         super(x, y);
         ASCII = '~'; // set the ASCII value for the class
