@@ -43,5 +43,16 @@ public abstract class Player {
 
     public int getFines(){ return this.fines;}
 
-    public boolean getAlive(){ return this.alive;}
+    public boolean isAlive(){ return this.alive;}
+
+    //Setters
+    public void kill(){ this.alive = false;}
+
+    public void changeHealth( int delta) { this.health = this.health + delta;}
+
+    public void changeHydration( int delta) { this.hydration = this.hydration + delta;}
+
+    public void changeSatiety( int delta) { this.satiety = this.satiety + delta;}
+
+    public void changeMorale( int delta) { this.morale = this.morale + delta;}
 }
