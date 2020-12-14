@@ -48,11 +48,37 @@ public abstract class Player {
     //Setters
     public void kill(){ this.alive = false;}
 
-    public void changeHealth( int delta) { this.health = this.health + delta;}
+    public void checkStats(){
+        if(getHealth() <=0 || getHydration() <=0 || getSatiety() <=0 || getMorale() <=0)
+        {
+            this.kill();
+        }
+        else if(getHealth() > 100){ this.health = 100; } // Normalement non utilisé car rien ne peut faire remonter la vie
 
-    public void changeHydration( int delta) { this.hydration = this.hydration + delta;}
+        else if(getHydration() > 100){ this.hydration = 100; }
 
-    public void changeSatiety( int delta) { this.satiety = this.satiety + delta;}
+        else if(getSatiety() > 100){ this.satiety = 100; }
 
-    public void changeMorale( int delta) { this.morale = this.morale + delta;}
+        else if(getMorale() > 100){ this.morale = 100; }
+    }
+
+    public void changeHealth( int delta) {
+        this.health = this.health + delta;
+        this.checkStats();
+    }
+
+    public void changeHydration( int delta) {
+        this.hydration = this.hydration + delta;
+        this.checkStats();
+    }
+
+    public void changeSatiety( int delta) {
+        this.satiety = this.satiety + delta;
+        this.checkStats();
+    }
+
+    public void changeMorale( int delta) {
+        this.morale = this.morale + delta;
+        this.checkStats();
+    }
 }
