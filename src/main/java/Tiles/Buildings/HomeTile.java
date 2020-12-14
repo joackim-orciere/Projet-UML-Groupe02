@@ -1,11 +1,13 @@
-package java.Tiles;
+package java.Tiles.Buildings;
 
-public class ForestTile extends Tile
+import java.Tiles.Player;
+
+public class HomeTile extends BuildingTile
 {
-    ForestTile(int x, int y)
+    HomeTile(int x, int y)
     {
         super(x, y);
-        ASCII = 'A'; // set the ASCII value for the class
+        ASCII = 'H'; // set the ASCII value for the class
     }
 
     @Override

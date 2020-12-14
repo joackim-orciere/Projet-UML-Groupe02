@@ -1,6 +1,6 @@
 package java.Tiles;
 
-import java.Tiles.Player;
+
 import java.Tiles.Tile;
 
 public class GreyTile extends Tile {
@@ -11,12 +11,12 @@ public class GreyTile extends Tile {
     }
 
     @Override
-    void enterTile(Player player) {
+    public void enterTile(Player player) {
         // should never enter this function
     }
 
     @Override
-    boolean accessible(Player player) {
+    public boolean accessible(Player player) {
         return false; // never accessible
     }
 

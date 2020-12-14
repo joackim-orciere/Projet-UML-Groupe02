@@ -9,13 +9,13 @@ public class WaterTile extends Tile
     }
 
     @Override
-    void enterTile(Player player)
+    public void enterTile(Player player)
     {
         // TODO: what happens when the player enter the tile
     }
 
     @Override
-    boolean accessible(Player player)
+    public boolean accessible(Player player)
     {
         // TODO: conditions to enter the tile
         return true;
