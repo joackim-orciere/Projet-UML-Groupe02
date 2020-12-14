@@ -29,5 +29,17 @@ public class Map
         }
     }
 
-
+    public String getASCII( )
+    {
+        String s ="";
+        for( int x = 0; x < n; x++ )
+        {
+            for( int y = 0; y < m; y++ )
+            {
+                s += tiles[x][y].getASCII();
+            }
+            s += '\n';
+        }
+        return s;
+    }
 }
