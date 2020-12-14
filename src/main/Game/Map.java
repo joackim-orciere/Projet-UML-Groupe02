@@ -2,7 +2,6 @@ package Game;
 
 import java.Tiles.Tile;
 import java.Tiles.WaterTile;
-import java.util.ArrayList;
 
 public class Map
 {
