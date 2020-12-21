@@ -1,4 +1,6 @@
-package java.Tiles;
+package Tiles;
+
+import player.Player;
 
 public abstract class Tile {
     private int x;

@@ -1,4 +1,6 @@
-package java.Tiles;
+package Tiles;
+
+import player.Player;
 
 public class WaterTile extends Tile
 {
@@ -17,7 +19,6 @@ public class WaterTile extends Tile
     @Override
     public boolean accessible(Player player)
     {
-        // TODO: conditions to enter the tile
-        return true;
+        return player.getSwimsuit(); // return true if the player has a swimsuit
     }
 }

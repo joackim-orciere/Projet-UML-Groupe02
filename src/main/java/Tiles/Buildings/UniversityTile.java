@@ -1,6 +1,6 @@
-package java.Tiles.Buildings;
+package Tiles.Buildings;
 
-import java.Tiles.Player;
+import player.Player;
 
 public class UniversityTile extends BuildingTile
 {

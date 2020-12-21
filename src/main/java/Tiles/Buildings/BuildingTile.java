@@ -1,6 +1,6 @@
-package java.Tiles.Buildings;
+package Tiles.Buildings;
 
-import java.Tiles.Tile;
+import Tiles.Tile;
 
 public abstract class BuildingTile extends Tile
 {

@@ -1,7 +1,8 @@
 package java.Tiles;
 
 
-import java.Tiles.Tile;
+import Tiles.Tile;
+import player.Player;
 
 public class GreyTile extends Tile {
 
