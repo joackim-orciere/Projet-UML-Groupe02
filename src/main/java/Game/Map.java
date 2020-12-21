@@ -1,7 +1,8 @@
 package Game;
 
-import java.Tiles.Tile;
-import java.Tiles.WaterTile;
+import Tiles.Tile;
+import Tiles.WaterTile;
+
 
 public class Map
 {
