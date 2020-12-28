@@ -9,7 +9,10 @@ public class Pothole extends RoadTrap{
 
     @Override
     public void activeTrap() {
-        // TODO: implementation activeTrap for Pothole
-
+        double d = Math.random();
+        if(d <= 0.05) {
+            changeHydration(2);
+            changeSatiety(2);
+        }
     }
 }

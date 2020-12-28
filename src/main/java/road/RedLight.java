@@ -9,7 +9,9 @@ public class RedLight extends RoadTrap {
 
     @Override
     public void activeTrap() {
-        // TODO: implementation activeTrap for RedLight
-
+        double d = Math.random();
+        if (d <= 0.05) {
+            changeHealth(1);
+        }
     }
 }

@@ -2,7 +2,6 @@ package road;
 
 public class Police extends RoadTrap{
 
-
     Police(int x, int y) {
         super(x, y);
         name = "Police";
@@ -10,7 +9,9 @@ public class Police extends RoadTrap{
 
     @Override
     public void activeTrap() {
-        // TODO: implementation activeTrap for Police
-
+        double d = Math.random() ;
+        if(d <= 0.05) {
+            changeMorale(1);
+        }
     }
 }
