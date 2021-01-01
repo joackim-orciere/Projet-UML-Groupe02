@@ -4,7 +4,7 @@ import player.Player;
 
 public class ForestTile extends Tile
 {
-    ForestTile(int x, int y)
+    public ForestTile(int x, int y)
     {
         super(x, y);
         ASCII = 'A'; // set the ASCII value for the class
