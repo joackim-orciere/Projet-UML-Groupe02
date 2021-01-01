@@ -5,9 +5,9 @@ import Tiles.Tile;
 public abstract class BuildingTile extends Tile
 {
     String name;
-    BuildingTile(int x, int y)
+    BuildingTile()
     {
-        super(x, y);
+        super();
     }
 
 }

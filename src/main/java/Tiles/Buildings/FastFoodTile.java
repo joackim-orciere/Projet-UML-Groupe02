@@ -4,9 +4,9 @@ import player.Player;
 
 public class FastFoodTile extends BuildingTile
 {
-    FastFoodTile(int x, int y)
+    public FastFoodTile()
     {
-        super(x, y);
+        super();
         ASCII = 'F'; // set the ASCII value for the class
     }
 

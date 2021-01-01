@@ -4,9 +4,9 @@ import player.Player;
 
 public class UniversityTile extends BuildingTile
 {
-    UniversityTile(int x, int y)
+    public UniversityTile()
     {
-        super(x, y);
+        super();
         ASCII = 'U'; // set the ASCII value for the class
     }
 

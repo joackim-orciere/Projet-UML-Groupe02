@@ -1,14 +1,13 @@
-package java.Tiles;
+package Tiles;
 
-
-import Tiles.Tile;
 import player.Player;
 
 public class GreyTile extends Tile {
 
-    GreyTile(int x, int y) {
-        super(x, y);
-        ASCII = 'X'; // set the ASCII value for the class
+    public GreyTile()
+    {
+        super();
+        ASCII = ' '; // set the ASCII value for the class
     }
 
     @Override

@@ -4,9 +4,9 @@ import player.Player;
 
 public class HomeTile extends BuildingTile
 {
-    HomeTile(int x, int y)
+    public HomeTile()
     {
-        super(x, y);
+        super();
         ASCII = 'H'; // set the ASCII value for the class
     }
 

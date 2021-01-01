@@ -1,10 +1,13 @@
 package road;
 
-public class Road extends Tile {
+import Tiles.Tile;
+import player.Player;
 
-    Road(int x, int y){
-        super(x, y);
-        ASCII = ' ';
+public class SideWalkTile extends Tile {
+
+    public SideWalkTile(){
+        super( );
+        ASCII = '#';
     }
 
     @Override

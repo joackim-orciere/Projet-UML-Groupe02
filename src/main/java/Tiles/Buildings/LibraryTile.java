@@ -4,9 +4,9 @@ import player.Player;
 
 public class LibraryTile extends BuildingTile
 {
-    LibraryTile(int x, int y)
+    public LibraryTile()
     {
-        super(x, y);
+        super();
         ASCII = 'L'; // set the ASCII value for the class
     }
 

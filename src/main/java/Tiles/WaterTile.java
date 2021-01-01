@@ -4,9 +4,9 @@ import player.Player;
 
 public class WaterTile extends Tile
 {
-    public WaterTile(int x, int y)
+    public WaterTile()
     {
-        super(x, y);
+        super();
         ASCII = '~'; // set the ASCII value for the class
     }
 

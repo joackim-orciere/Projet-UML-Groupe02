@@ -4,9 +4,9 @@ import player.Player;
 
 public class BarTile extends BuildingTile
 {
-    BarTile(int x, int y)
+    public BarTile()
     {
-        super(x, y);
+        super();
         ASCII = 'B'; // set the ASCII value for the class
     }
 
