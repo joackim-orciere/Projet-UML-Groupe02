@@ -11,7 +11,13 @@ public class Map
     private int m;
     private int size = n * m;
 
-    static boolean home = true;
+    static boolean placed_home = false;
+
+    // probabilities
+    static double pB = 0.3; // Bar
+    static double pF = 0.3; // FastFood
+    static double pL = 0.3; // Library
+    static double pU = 0.3; // University
 
     Tile[][] tiles;
 
@@ -21,6 +27,7 @@ public class Map
         this.m = m;
         tiles = new Tile[n][m];   // array containing the Tiles of the map
         generateMap();
+
     }
 
     public void generateMap( ) // TODO proper map generation
@@ -52,13 +59,18 @@ public class Map
             {
                 int cx = x * 9;
                 int cy = y * 7;
-                generateBuildingNeighbours(cx, cy );
 
                 if( x == 2 && y == 1 )
                     generatePoolNeighbours(cx, cy);
-
-                if( x == 6 && y == 0 )
+                else if( x == 6 && y == 0 )
                     generateSmallParkNeighbours(cx, cy);
+                else
+                {
+                    if( x == nx-1 && y == ny-1 )
+                        generateBuildingNeighbours(cx, cy, true);
+                    else
+                        generateBuildingNeighbours(cx, cy, false);
+                }
             }
         }
     }
@@ -77,38 +89,100 @@ public class Map
         return s;
     }
 
-    public void generateBuildingNeighbours( int x, int y )
+    public void generateBuildingNeighbours( int x, int y, boolean last )
     {
         setRect( x,y, x+9, y+7, new RoadTile());
         setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
         setRect( x+2,y+2, x+7, y+5, new GreyTile());
 
-        if( home )
+        double roll;
+
+        if( last )
+        {
+            if( pB != 0 ) setTile(x + 3, y + 2, new BarTile());
+            if( pF != 0 ) setTile(x + 4, y + 4, new FastFoodTile());
+            if( pL != 0 ) setTile(x + 2, y + 3, new LibraryTile());
+            if( pU != 0 ) setTile(x + 6, y + 3, new UniversityTile());
+        }
+        if( !placed_home )
         {
             setTile(x + 6, y + 4, new HomeTile());
-            home = false;
+            placed_home = true;
         }
-        if(Math.random() < 0.20) setTile(x + 2, y + 2, new LibraryTile());
-        if(Math.random() < 0.20) setTile(x + 4, y + 2, new UniversityTile());
-        if(Math.random() < 0.20) setTile(x + 2, y + 4, new FastFoodTile());
-        if(Math.random() < 0.20) setTile(x + 6, y + 3, new LibraryTile());
-        if(Math.random() < 0.20) setTile(x + 3, y + 4, new BarTile());
+        else if( Math.random() < pB/(pB+pF+pL+pU+0.001)) // bar
+        {
+            roll = Math.random();
+            if( roll < pB || last)
+            {
+                pB = 0;
+                setTile(x + 3, y + 2, new BarTile());
+            }
+            else {
+                pB = pB * 2.0;
+                if( pB > 1 ) pB = 1;
+            }
+        }
+        else if( Math.random() < pF/(pF+pB+pL+pU+0.001)) // fastfood
+        {
+            roll = Math.random();
+            if( roll < pF || last)
+            {
+                pF = 0;
+                setTile(x + 4, y + 4, new FastFoodTile());
+            }
+            else {
+                pF = pF * 2.0;
+                if( pF > 1 ) pF = 1;
+            }
+        }
+        else if( Math.random() < pL/(pL+pF+pB+pU+0.001)) // library
+        {
+            roll = Math.random();
+            if( roll < pL || last)
+            {
+                pL = 0;
+                setTile(x + 2, y + 3, new LibraryTile());
+            }
+            else {
+                pL = pL * 2.0;
+                if( pL > 1 ) pL = 1;
+            }
+
+        }
+        else if( Math.random() < pU/(pU+pF+pL+pB+0.001))// university
+        {
+            roll = Math.random();
+            if( roll < pU )
+            {
+                pU = 0;
+                setTile(x + 6, y + 3, new UniversityTile());
+            }
+            else {
+                pU = pU * 2.0;
+                if( pU > 1 ) pU = 1;
+            }
+        }
+        // System.out.println("pB: " + pB + ", pF: " + pF + ", pL: " + pL + ", pU: " + pU );
     }
+
 
     public void generateBigParkNeighbours( int x, int y )
     {
-        setRect( x-8,y-6, x+8, y+6, new SideWalkTile());
-        setRect( x-7,y-5, x+7, y+5, new ForestTile());
+        setRect( x,y, x+9, y+7, new RoadTile());
+        setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
+        setRect( x+2,y+2, x+7, y+5, new ForestTile());
     }
 
     public void generateSmallParkNeighbours( int x, int y )
     {
-        setRect( x-8,y+1, x+8, y+6, new SideWalkTile());
-        setRect( x-7,y+2, x+7, y+5, new ForestTile());
+        setRect( x,y, x+9, y+7, new RoadTile());
+        setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
+        setRect( x+2,y+2, x+7, y+5, new ForestTile());
     }
 
     public void generatePoolNeighbours( int x, int y )
     {
+        setRect( x,y, x+9, y+7, new RoadTile());
         setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
         setRect( x+2,y+2, x+7, y+5, new WaterTile());
     }
