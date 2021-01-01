@@ -29,21 +29,22 @@ public class Map
         {
             for( int x = 0; x < n; x++ )
             {
-                tiles[x][y] = new RoadTile();
+                tiles[x][y] = new GreyTile();
             }
         }
 
-        // a neighbour is a square of 6 x 4, 8 x 6 counting the sidewalks and roads
+        // a neighbour is a square of 7 x 5, 9 x 7 counting the sidewalks and roads
         //
-        //  ........
-        //  .######.
-        //  .#H  U#.
-        //  .#  B #.
-        //  .######.
-        //  ........
+        //  .........
+        //  .#######.
+        //  .#H   U#.
+        //  .#     #.
+        //  .#  B  #.
+        //  .#######.
+        //  .........
 
-        int nx = (int) Math.floor(n / 8); // divide by 8
-        int ny = (int) Math.floor(m / 6); // divide by 6
+        int nx = (int) Math.ceil(n / 9); // divide by 8
+        int ny = (int) Math.ceil(m / 7); // divide by 6
 
         for( int y = 0; y < ny; y++ )
         {
@@ -78,7 +79,7 @@ public class Map
 
     public void generateBuildingNeighbours( int x, int y )
     {
-
+        setRect( x,y, x+9, y+7, new RoadTile());
         setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
         setRect( x+2,y+2, x+7, y+5, new GreyTile());
 
