@@ -22,7 +22,7 @@ public class Game
 
     public static void main(String args[])  //static method
     {
-        Game game = new Game(46, 24);
+        Game game = new Game(64, 16);
         System.out.println(game.map.getASCII());
     }
 }

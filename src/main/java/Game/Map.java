@@ -19,6 +19,9 @@ public class Map
     static double pL = 0.3; // Library
     static double pU = 0.3; // University
 
+    static double pPool = 0.08;
+    static double pPark = 0.08;
+
     Tile[][] tiles;
 
     public Map( int n, int m )
@@ -60,16 +63,24 @@ public class Map
                 int cx = x * 9;
                 int cy = y * 7;
 
-                if( x == 2 && y == 1 )
+                boolean l = x == nx-1 && y == ny-1;
+
+                if( Math.random() < pPool && !l ) {
                     generatePoolNeighbours(cx, cy);
-                else if( x == 6 && y == 0 )
+                    pPool = 0;
+                }
+                else if( Math.random() < pPark && !l ) {
                     generateSmallParkNeighbours(cx, cy);
+                    pPark = 0;
+                }
                 else
                 {
                     if( x == nx-1 && y == ny-1 )
                         generateBuildingNeighbours(cx, cy, true);
                     else
                         generateBuildingNeighbours(cx, cy, false);
+                    pPark = pPark * 1.5;
+                    pPool = pPool * 1.5 ;
                 }
             }
         }
