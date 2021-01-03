@@ -19,8 +19,8 @@ public class Map
     static double pL = 0.3; // Library
     static double pU = 0.3; // University
 
-    static double pPool = 0.08;
-    static double pPark = 0.08;
+    static double pPool = 0.12;
+    static double pPark = 0.123;
 
     Tile[][] tiles;
 
@@ -56,6 +56,13 @@ public class Map
         int nx = (int) Math.ceil(n / 9); // divide by 8
         int ny = (int) Math.ceil(m / 7); // divide by 6
 
+        pB = 6.0 / ( nx * ny );
+        pU = pB;
+        pL = pB;
+        pF = pB;
+
+        System.out.println(pB);
+
         for( int y = 0; y < ny; y++ )
         {
             for( int x = 0; x < nx; x++ )
@@ -63,25 +70,27 @@ public class Map
                 int cx = x * 9;
                 int cy = y * 7;
 
-                boolean l = x == nx-1 && y == ny-1;
 
-                if( Math.random() < pPool && !l ) {
-                    generatePoolNeighbours(cx, cy);
-                    pPool = 0;
+                if( x == nx-1 && y == ny-1 )
+                    generateBuildingNeighbour(cx, cy, true);
+                else {
+                    boolean empty = generateBuildingNeighbour(cx, cy, false);
+                    if( empty )
+                    {
+                        if( Math.random() < pPool ) {
+                            generatePoolNeighbour(cx, cy);
+                            pPool = 0;
+                        }
+                        else if( Math.random() < pPark ) {
+                            generateSmallParkNeighbour(cx, cy);
+                            pPark = 0;
+                        }
+                        else if( Math.random() < 0.5 )
+                            generateThingNeighbour(cx, cy);
+                    }
                 }
-                else if( Math.random() < pPark && !l ) {
-                    generateSmallParkNeighbours(cx, cy);
-                    pPark = 0;
-                }
-                else
-                {
-                    if( x == nx-1 && y == ny-1 )
-                        generateBuildingNeighbours(cx, cy, true);
-                    else
-                        generateBuildingNeighbours(cx, cy, false);
-                    pPark = pPark * 1.5;
-                    pPool = pPool * 1.5 ;
-                }
+                pPark = pPark * 1.5;
+                pPool = pPool * 1.5 ;
             }
         }
     }
@@ -100,13 +109,15 @@ public class Map
         return s;
     }
 
-    public void generateBuildingNeighbours( int x, int y, boolean last )
+    public boolean generateBuildingNeighbour( int x, int y, boolean last )
     {
         setRect( x,y, x+9, y+7, new RoadTile());
         setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
         setRect( x+2,y+2, x+7, y+5, new GreyTile());
 
         double roll;
+
+        boolean empty = true;
 
         if( last )
         {
@@ -119,6 +130,7 @@ public class Map
         {
             setTile(x + 6, y + 4, new HomeTile());
             placed_home = true;
+            empty = false;
         }
         else if( Math.random() < pB/(pB+pF+pL+pU+0.001)) // bar
         {
@@ -127,6 +139,7 @@ public class Map
             {
                 pB = 0;
                 setTile(x + 3, y + 2, new BarTile());
+                empty = false;
             }
             else {
                 pB = pB * 2.0;
@@ -140,6 +153,7 @@ public class Map
             {
                 pF = 0;
                 setTile(x + 4, y + 4, new FastFoodTile());
+                empty = false;
             }
             else {
                 pF = pF * 2.0;
@@ -153,6 +167,7 @@ public class Map
             {
                 pL = 0;
                 setTile(x + 2, y + 3, new LibraryTile());
+                empty = false;
             }
             else {
                 pL = pL * 2.0;
@@ -167,31 +182,49 @@ public class Map
             {
                 pU = 0;
                 setTile(x + 6, y + 3, new UniversityTile());
+                empty = false;
             }
             else {
                 pU = pU * 2.0;
                 if( pU > 1 ) pU = 1;
             }
         }
+
+        return empty;
         // System.out.println("pB: " + pB + ", pF: " + pF + ", pL: " + pL + ", pU: " + pU );
     }
 
 
-    public void generateBigParkNeighbours( int x, int y )
+    public void generateBigParkNeighbour( int x, int y )
     {
         setRect( x,y, x+9, y+7, new RoadTile());
         setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
         setRect( x+2,y+2, x+7, y+5, new ForestTile());
     }
 
-    public void generateSmallParkNeighbours( int x, int y )
+    public void generateThingNeighbour( int x, int y )
+    {
+        setRect( x,y, x+9, y+7, new RoadTile());
+        setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
+        setRect( x+2,y+2, x+7, y+5, new WaterTile());
+        setTile( x+2, y+2, new ForestTile());
+        setTile( x+6, y+4, new ForestTile());
+        setTile( x+6, y+4, new ForestTile());
+        setTile( x+3, y+2, new ForestTile());
+        setTile( x+3, y+3, new ForestTile());
+        setTile( x+2, y+3, new ForestTile());
+        setTile( x+4, y+2, new ForestTile());
+
+    }
+
+    public void generateSmallParkNeighbour( int x, int y )
     {
         setRect( x,y, x+9, y+7, new RoadTile());
         setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
         setRect( x+2,y+2, x+7, y+5, new ForestTile());
     }
 
-    public void generatePoolNeighbours( int x, int y )
+    public void generatePoolNeighbour( int x, int y )
     {
         setRect( x,y, x+9, y+7, new RoadTile());
         setRect( x+1,y+1, x+8, y+6, new SideWalkTile());
@@ -216,7 +249,7 @@ public class Map
     public void setTile(int x, int y, Tile tile)
     {
         Tile decoy = new WaterTile();
-        if( x >= n || x < 0 || y >= m || y < 0 )
+        if( x >= n || x < 0 || y >= m || y < 0 ) // outside
             return;
         else
             tiles[x][y] = tile;
