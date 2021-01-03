@@ -1,23 +1,40 @@
 package road;
 
 import Tiles.Tile;
+import Tiles.TileWithShift;
 import player.Player;
+import shifts.*;
 
-public class RoadTile extends Tile {
+import static Misc.Misc.isInstance;
 
-    public RoadTile(){
+public class RoadTile extends TileWithShift {
+
+    public RoadTile( )
+    {
         super( );
         ASCII = '.';
+
+        double roll = Math.random();
+        if( roll < 0.04 )
+        {
+            this.shift = new CarShift();
+        }
+        else
+            this.shift = null;
     }
+
+
 
     @Override
     public boolean accessible(Player player) {
-        // TODO: conditions to enter the tile
-        return true;
+        return (isInstance( player.getShift(), CarShift.class)  && shift == null) ||    // can't drive on top of other cars or bikes
+               (isInstance( player.getShift(), BikeShift.class)) ||                     // can ride on top of other shifts
+               (isInstance( player.getShift(), WalkShift.class) && shift != null) ;     // can enter cars if at foot
     }
 
     @Override
-    public void enterTile(Player player) {
+    public void enterTile(Player player)
+    {
         // TODO: what happens when the player enter the tile
     }
 }

@@ -1,20 +1,20 @@
 package player;
 
-enum Dir
-{
-    Up,
-    Down,
-    Left,
-    Right
-}
+import shifts.Shift;
+import shifts.WalkShift;
 
 public abstract class Player {
     private int x;
     private int y;
+    public int prev_x;
+    public int prev_y;
+    private Shift shift;
+
     protected int health;
     protected int hydration;
     protected int satiety;
     protected int morale;
+
     private String pseudo;
     private int nbrDiploma = 0;
     protected boolean driver = true;
@@ -26,21 +26,27 @@ public abstract class Player {
         this.x = x;
         this.y = y;
         this.pseudo = pseudo;
+        this.shift = new WalkShift(); // default shift
     }
 
     public void move( Dir dir )
     {
+        // TODO override function in sub-classes, implement maluses
         switch (dir) {
             case Up:
+                prev_y = y;
                 y += -1;
                 break;
             case Down:
+                prev_y = y;
                 y += 1;
                 break;
             case Left:
+                prev_x = x;
                 x += -1;
                 break;
             case Right:
+                prev_x = x;
                 x += 1;
                 break;
         }
@@ -70,6 +76,10 @@ public abstract class Player {
     public int getFines(){ return this.fines;}
 
     public boolean isAlive(){ return this.alive;}
+
+    public Shift getShift(){ return this.shift;}
+
+    public void setShift( Shift shift ){ this.shift = shift;}
 
     //Setters
     public void kill(){ this.alive = false;}
@@ -106,5 +116,9 @@ public abstract class Player {
     public void changeMorale( int delta) {
         this.morale = this.morale + delta;
         this.checkStats();
+    }
+
+    public char getASCII() {
+        return shift.getASCII();
     }
 }

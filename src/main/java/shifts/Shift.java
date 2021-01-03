@@ -1,9 +1,10 @@
 package shifts;
 
-public abstract class Shifts {
+import player.Player;
+
+public abstract class Shift {
 
     protected char ASCII;
-    protected float deathChance;
 
     public abstract void changeStats(Player player);
 
