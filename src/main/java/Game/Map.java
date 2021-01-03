@@ -62,8 +62,6 @@ public class Map {
         pL = pB;
         pF = pB;
 
-        System.out.println(pB);
-
         for (int y = 0; y < ny; y++) {
             for (int x = 0; x < nx; x++) {
                 int cx = x * 9;

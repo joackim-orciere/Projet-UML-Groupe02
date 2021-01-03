@@ -78,6 +78,18 @@ public class Game
             System.out.println("Erreur, default: petite");
             mapType = 1;
         }
+
+        System.out.print("Commencer la partie ? [play/quit]: \n -> ");
+        String s = scanner.next();
+
+        if( s.equals("quit") )
+        {
+            System.out.println("Exiting game..");
+            System.exit(0);
+        }
+
+
+        System.out.print("\033[H\033[2J"); // clear screen
     }
 
     public String getASCII()
@@ -219,11 +231,8 @@ public class Game
         System.out.println("Health: " + player.getHealth() + "\t | Hydration: \t" + player.getHydration());
         System.out.println("Morale: " + player.getMorale() + "\t | Satiety: \t" + player.getSatiety() + "\n");
         this.promptChoice();
-        try {
-            Runtime.getRuntime().exec("clear");
-        } catch (IOException e) {
-            System.out.println("    ------------    ");
-        }
+
+        System.out.print("\033[H\033[2J"); // clear screen
 
         return true;
     }
