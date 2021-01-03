@@ -1,5 +1,13 @@
 package player;
 
+enum Dir
+{
+    Up,
+    Down,
+    Left,
+    Right
+}
+
 public abstract class Player {
     private int x;
     private int y;
@@ -18,6 +26,24 @@ public abstract class Player {
         this.x = x;
         this.y = y;
         this.pseudo = pseudo;
+    }
+
+    public void move( Dir dir )
+    {
+        switch (dir) {
+            case Up:
+                y += -1;
+                break;
+            case Down:
+                y += 1;
+                break;
+            case Left:
+                x += -1;
+                break;
+            case Right:
+                x += 1;
+                break;
+        }
     }
 
     //Getters
@@ -53,7 +79,7 @@ public abstract class Player {
         {
             this.kill();
         }
-        else if(getHealth() > 100){ this.health = 100; } // Normalement non utilisé car rien ne peut faire remonter la vie
+        else if(getHealth() > 100){ this.health = 100; } // Normalement inutile car rien ne peut faire remonter la vie
 
         else if(getHydration() > 100){ this.hydration = 100; }
 

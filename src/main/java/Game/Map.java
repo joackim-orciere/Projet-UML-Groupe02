@@ -14,13 +14,16 @@ public class Map
     static boolean placed_home = false;
 
     // probabilities
-    static double pB = 0.3; // Bar
-    static double pF = 0.3; // FastFood
-    static double pL = 0.3; // Library
-    static double pU = 0.3; // University
+    static double pB; // Bar
+    static double pF; // FastFood
+    static double pL; // Library
+    static double pU; // University
 
     static double pPool = 0.12;
     static double pPark = 0.123;
+
+    public int homeX;    // used to initialize the player at the corresponding position
+    public int homeY;
 
     Tile[][] tiles;
 
@@ -129,6 +132,8 @@ public class Map
         if( !placed_home )
         {
             setTile(x + 6, y + 4, new HomeTile());
+            homeX = x + 6;
+            homeY = y + 4;
             placed_home = true;
             empty = false;
         }

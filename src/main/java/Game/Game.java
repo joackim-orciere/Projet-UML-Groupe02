@@ -1,6 +1,9 @@
 package Game;
 
+import player.Hippie;
+import player.HommePresse;
 import player.Player;
+import player.Standard;
 
 import java.util.Scanner;
 
@@ -16,14 +19,31 @@ public class Game
 
     public void init()
     {
-        if( mapType == 1)
-            map = new Map(27, 14);
+        switch (mapType) {
+            case 1:
+                map = new Map(27, 14);
+                break;
+            case 2:
+                map = new Map(35, 14);
+                break;
+            case 3:
+                map = new Map(45, 14);
+                break;
+        }
 
-        else if( mapType == 2 )
-            map = new Map(35,14);
+        switch (playerType) {
+            case 1:
+                player = new Standard(map.homeX, map.homeY, playerName);
+                break;
+            case 2:
+                player = new Hippie(map.homeX, map.homeY, playerName);
+                break;
+            case 3:
+                player = new HommePresse(map.homeX, map.homeY, playerName);
+                break;
+        }
 
-        else if( mapType == 3 )
-            map = new Map(45,14);
+
     }
 
     public void start()
