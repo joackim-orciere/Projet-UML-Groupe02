@@ -4,8 +4,8 @@ import shifts.Shift;
 import shifts.WalkShift;
 
 public abstract class Player {
-    private int x;
-    private int y;
+    protected int x;
+    protected int y;
     public int prev_x;
     public int prev_y;
     private Shift shift;
@@ -30,9 +30,9 @@ public abstract class Player {
         this.shift = new WalkShift(); // default shift
     }
 
-    public void move( Dir dir )
+    public String move(Dir dir )
     {
-        // TODO override function in sub-classes, implement maluses
+
         switch (dir) {
             case Up:
                 prev_y = y;
@@ -51,6 +51,8 @@ public abstract class Player {
                 x += 1;
                 break;
         }
+
+        return "";
     }
 
     //Getters
@@ -90,6 +92,15 @@ public abstract class Player {
 
     //Setters
     public void kill(){ this.alive = false;}
+
+    public void changeFines( int delta )
+    {
+        this.fines += delta;
+        if( this.fines >= 3 )
+        {
+            kill();
+        }
+    }
 
     public void checkStats(){
         if(getHealth() <=0 || getHydration() <=0 || getSatiety() <=0 || getMorale() <=0)

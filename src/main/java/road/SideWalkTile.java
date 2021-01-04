@@ -15,7 +15,7 @@ public class SideWalkTile extends TileWithShift {
         ASCII = '#';
 
         double roll = Math.random();
-        if( roll < 0.034 )
+        if( roll < 0.04 )
         {
             this.shift = new BikeShift();
         }

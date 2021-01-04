@@ -14,7 +14,7 @@ public class Map {
     private final int n;
     private final int m;
 
-    static boolean placed_home = false;
+    private boolean placed_home = false;
 
     // probabilities
     static double pB; // Bar
@@ -70,23 +70,29 @@ public class Map {
                 int cy = y * 7;
 
 
+                if( placed_home ) System.out.println("HOME");
+                else
+                    System.out.println("NOT YET");
+
                 if (x == nx - 1 && y == ny - 1)
+                {
                     generateBuildingNeighbour(cx, cy, true);
+                }
                 else {
                     boolean empty = generateBuildingNeighbour(cx, cy, false);
-                    if (empty) {
-                        if (Math.random() < pPool) {
+                    if (empty && placed_home) {
+                        if (Math.random() < pPool ) {
                             generatePoolNeighbour(cx, cy);
                             pPool = 0;
-                        } else if (Math.random() < pPark) {
+                        } else if (Math.random() < pPark ) {
                             generateSmallParkNeighbour(cx, cy);
                             pPark = 0;
-                        } else if (Math.random() < 0.5)
+                        } else if (Math.random() < 0.5 )
                             generateThingNeighbour(cx, cy);
                     }
                 }
-                pPark = pPark * 1.5;
-                pPool = pPool * 1.5;
+                pPark = pPark * 2;
+                pPool = pPool * 2;
             }
         }
     }
@@ -118,18 +124,11 @@ public class Map {
         boolean empty = true;
 
         if (last) {
-            if( !placed_home )
-            {
-                setTile(x + 6, y + 4, HomeTile.class);
-                homeX = x + 6;
-                homeY = y + 4;
-                placed_home = true;
-                empty = false;
-            }
             if (pB != 0) setTile(x + 3, y + 2, BarTile.class);
             if (pF != 0) setTile(x + 4, y + 4, FastFoodTile.class);
             if (pL != 0) setTile(x + 2, y + 3, LibraryTile.class);
             if (pU != 0) setTile(x + 6, y + 3, UniversityTile.class);
+            empty = false;
         }
         if (!placed_home) {
             setTile(x + 6, y + 4, HomeTile.class);
@@ -158,7 +157,8 @@ public class Map {
 
              */
 
-        } else if (Math.random() < pB / (pB + pF + pL + pU + 0.001)) // bar
+        }
+        if (Math.random() < pB / (pB + pF + pL + pU + 0.001)) // bar
         {
             roll = Math.random();
             if (roll < pB || last) {
@@ -169,7 +169,8 @@ public class Map {
                 pB = pB * 2.0;
                 if (pB > 1) pB = 1;
             }
-        } else if (Math.random() < pF / (pF + pB + pL + pU + 0.001)) // fastfood
+        }
+        else if (Math.random() < pF / (pF + pB + pL + pU + 0.001)) // fastfood
         {
             roll = Math.random();
             if (roll < pF || last) {
@@ -180,7 +181,8 @@ public class Map {
                 pF = pF * 2.0;
                 if (pF > 1) pF = 1;
             }
-        } else if (Math.random() < pL / (pL + pF + pB + pU + 0.001)) // library
+        }
+        else if (Math.random() < pL / (pL + pF + pB + pU + 0.001)) // library
         {
             roll = Math.random();
             if (roll < pL || last) {
@@ -192,7 +194,8 @@ public class Map {
                 if (pL > 1) pL = 1;
             }
 
-        } else if (Math.random() < pU / (pU + pF + pL + pB + 0.001))// university
+        }
+        else if (Math.random() < pU / (pU + pF + pL + pB + 0.001))// university
         {
             roll = Math.random();
             if (roll < pU) {
@@ -206,7 +209,6 @@ public class Map {
         }
 
         return empty;
-        // System.out.println("pB: " + pB + ", pF: " + pF + ", pL: " + pL + ", pU: " + pU );
     }
 
 

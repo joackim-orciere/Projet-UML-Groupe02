@@ -14,7 +14,7 @@ public class RoadTile extends TileWithShift {
         ASCII = '.';
 
         double roll = Math.random();
-        if( roll < 0.024 )
+        if( roll < 0.032 )
         {
             this.shift = new CarShift();
         }

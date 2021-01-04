@@ -1,6 +1,9 @@
 package Tiles.Buildings;
 
+import player.Hippie;
 import player.Player;
+
+import static Misc.Misc.isInstance;
 
 public class BarTile extends BuildingTile
 {
@@ -13,10 +16,15 @@ public class BarTile extends BuildingTile
     @Override
     public String enterTile(Player player)
     {
+        int coef = 1;
+        if( isInstance( player, Hippie.class ))
+        {
+            coef = 2;
+        }
 
         player.changeMorale(+10 );
         player.changeHydration(+25 );
-        player.changeHealth(-3 );
+        player.changeHealth(-3 / coef );
 
         String s = "You drink a lot: +25 hydration, +10 moral, -3 health. ";
 

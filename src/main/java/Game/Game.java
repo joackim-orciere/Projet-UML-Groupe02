@@ -112,6 +112,8 @@ public class Game
     public void promptChoice()
     {
 
+        eventString = "";
+
         System.out.println("z: Up, s: Down, q: Left, d: right");
 
         boolean isDriving = isInstance( player.getShift(), CarShift.class);
@@ -152,32 +154,32 @@ public class Game
         {
             if( map.getTile(px + 0, py - 1).accessible( player ) )
             {
-                player.move(Dir.Up);
-                eventString = map.getTile( player.getX(), player.getY()).enterTile( player );
+                eventString += player.move(Dir.Up);
+                eventString += map.getTile( player.getX(), player.getY()).enterTile( player );
             }
         }
         else if(s.equals("s"))
         {
             if( map.getTile(px + 0, py + 1).accessible( player ) )
             {
-                player.move(Dir.Down);
-                eventString = map.getTile( player.getX(), player.getY()).enterTile( player );
+                eventString += player.move(Dir.Down);
+                eventString += map.getTile( player.getX(), player.getY()).enterTile( player );
             }
         }
         else if(s.equals("q") || s.equals("a"))
         {
             if( map.getTile(px - 1, py + 0).accessible( player ) )
             {
-                player.move(Dir.Left);
-                eventString = map.getTile( player.getX(), player.getY()).enterTile( player );
+                eventString += player.move(Dir.Left);
+                eventString += map.getTile( player.getX(), player.getY()).enterTile( player );
             }
         }
         else if(s.equals("d"))
         {
             if( map.getTile(px + 1, py + 0).accessible( player ) )
             {
-                player.move(Dir.Right);
-                eventString = map.getTile( player.getX(), player.getY()).enterTile( player );
+                eventString += player.move(Dir.Right);
+                eventString += map.getTile( player.getX(), player.getY()).enterTile( player );
             }
         }
         else if(s.equals("exit") || s.equals("quit"))
@@ -185,22 +187,24 @@ public class Game
             System.out.println("Exiting game..");
             System.exit(0);
         }
-        else if( isOnTopOfCar && s.equals("e") )   // entering bike
+        else if( isOnTopOfCar && s.equals("e") )   // entering car
         {
             // Allow for swapping shifts
             Shift shift = null;
             if( isInstance( player.getShift(), BikeShift.class ))
                 shift = new BikeShift();
 
-            player.setShift( new CarShift());   // set player shift to Car
-            Tile tile = map.getTile( player.getX(), player.getY() );
-            if( isInstance( tile, TileWithShift.class) )
+            if( !isInstance( player, Hippie.class )) // only if not hippie
             {
-                TileWithShift casted_tile = ( TileWithShift ) tile;
-                casted_tile.setShift( shift );  // set tile shift to Bike or null
+                player.setShift(new CarShift());   // set player shift to Car
+                Tile tile = map.getTile(player.getX(), player.getY());
+                if (isInstance(tile, TileWithShift.class)) {
+                    TileWithShift casted_tile = (TileWithShift) tile;
+                    casted_tile.setShift(shift);  // set tile shift to Bike or null
+                }
             }
         }
-         else if( isDriving && s.equals("e") )       // leaving car
+         else if( isDriving && s.equals("l") )       // leaving car
         {
 
             player.setShift( new WalkShift() );
@@ -222,7 +226,7 @@ public class Game
                 casted_tile.setShift( null );  // set tile shift to null
             }
         }
-        else if( isRiding && s.equals("e"))        // leaving bike
+        else if( isRiding && s.equals("l"))        // leaving bike
         {
             player.setShift( new WalkShift());
             Tile tile = map.getTile( player.getX(), player.getY() );
@@ -246,7 +250,8 @@ public class Game
         // TODO print event
         System.out.println("Health: " + player.getHealth() + "\t | Hydration: \t" + player.getHydration());
         System.out.println("Morale: " + player.getMorale() + "\t | Satiety: \t" + player.getSatiety());
-        System.out.println("Intel:  " + (int) (player.getDiplomaChance()*100) + "%\t | Diplomas: \t" + player.getNbrDiploma() + "\n");
+        System.out.println("Intel:  " + (int) (player.getDiplomaChance()*100) + "%\t | Diplomas: \t" + player.getNbrDiploma());
+        System.out.println("Fines:  " + player.getFines() + "\n");
         this.promptChoice();
 
         System.out.print("\033[H\033[2J"); // clear screen
@@ -274,6 +279,12 @@ public class Game
             }
 
             System.out.println(game.getASCII());
+
+            System.out.println( game.eventString + "\n");
+
+            System.out.println("Health: " + game.player.getHealth() + "\t | Hydration: \t" + game.player.getHydration());
+            System.out.println("Morale: " + game.player.getMorale() + "\t | Satiety: \t" + game.player.getSatiety());
+            System.out.println("Intel:  " + (int) (game.player.getDiplomaChance()*100) + "%\t | Diplomas: \t" + game.player.getNbrDiploma() + "\n");
 
             System.out.println("You Died.\n");
             System.out.println("----{ Score }----");
