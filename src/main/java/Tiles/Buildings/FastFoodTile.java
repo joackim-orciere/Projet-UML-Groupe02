@@ -29,10 +29,4 @@ public class FastFoodTile extends BuildingTile
         return "You eat junk food: +25 satiety, +10 hydration, +10 morale, -5 health";
     }
 
-    @Override
-    public boolean accessible(Player player)
-    {
-        // TODO: conditions to enter the tile
-        return true;
-    }
 }

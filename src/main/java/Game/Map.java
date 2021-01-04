@@ -70,10 +70,6 @@ public class Map {
                 int cy = y * 7;
 
 
-                if( placed_home ) System.out.println("HOME");
-                else
-                    System.out.println("NOT YET");
-
                 if (x == nx - 1 && y == ny - 1)
                 {
                     generateBuildingNeighbour(cx, cy, true);

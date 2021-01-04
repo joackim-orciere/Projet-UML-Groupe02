@@ -1,6 +1,11 @@
 package Tiles.Buildings;
 
 import Tiles.Tile;
+import player.Player;
+import shifts.BikeShift;
+import shifts.CarShift;
+
+import static Misc.Misc.isInstance;
 
 public abstract class BuildingTile extends Tile
 {
@@ -15,5 +20,14 @@ public abstract class BuildingTile extends Tile
         return Tile.COLOR_PURPLE + ASCII + Tile.COLOR_DEFAULT;
     }
 
-
+    @Override
+    public boolean accessible(Player player)
+    {
+        if( isInstance( player.getShift(), CarShift.class  ) ||
+            isInstance( player.getShift(), BikeShift.class ))
+        {
+            return false; // cannot enter buildings with a car nor a bike
+        }
+        return true;
+    }
 }

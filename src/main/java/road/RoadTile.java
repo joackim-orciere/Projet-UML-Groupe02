@@ -1,6 +1,7 @@
 package road;
 
 import Tiles.TileWithShift;
+import player.Hippie;
 import player.Player;
 import shifts.*;
 
@@ -28,7 +29,7 @@ public class RoadTile extends TileWithShift {
     public boolean accessible(Player player) {
         return (isInstance( player.getShift(), CarShift.class)  && shift == null) ||    // can't drive on top of other cars or bikes
                (isInstance( player.getShift(), BikeShift.class)) ||                     // can ride on top of other shifts
-               (isInstance( player.getShift(), WalkShift.class) && shift != null) ;     // can enter cars if at foot
+               (isInstance( player.getShift(), WalkShift.class) && shift != null && !isInstance(player, Hippie.class)) ;     // can enter cars if at foot
     }
 
     @Override

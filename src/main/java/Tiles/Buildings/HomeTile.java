@@ -19,10 +19,4 @@ public class HomeTile extends BuildingTile
         return "Home Sweet Home!: +10 morale, satiety and hydration";
     }
 
-    @Override
-    public boolean accessible(Player player)
-    {
-        // TODO: conditions to enter the tile
-        return true;
-    }
 }

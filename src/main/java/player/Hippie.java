@@ -1,7 +1,6 @@
 package player;
 
 import shifts.BikeShift;
-import shifts.CarShift;
 import shifts.WalkShift;
 
 import static Misc.Misc.isInstance;

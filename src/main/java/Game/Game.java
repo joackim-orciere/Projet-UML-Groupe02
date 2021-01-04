@@ -187,24 +187,22 @@ public class Game
             System.out.println("Exiting game..");
             System.exit(0);
         }
-        else if( isOnTopOfCar && s.equals("e") )   // entering car
+        else if( isOnTopOfCar && s.equals("e") && !isInstance( player, Hippie.class ))  // entering car
         {
             // Allow for swapping shifts
             Shift shift = null;
             if( isInstance( player.getShift(), BikeShift.class ))
                 shift = new BikeShift();
 
-            if( !isInstance( player, Hippie.class )) // only if not hippie
-            {
-                player.setShift(new CarShift());   // set player shift to Car
-                Tile tile = map.getTile(player.getX(), player.getY());
-                if (isInstance(tile, TileWithShift.class)) {
-                    TileWithShift casted_tile = (TileWithShift) tile;
-                    casted_tile.setShift(shift);  // set tile shift to Bike or null
-                }
+            player.setShift(new CarShift());   // set player shift to Car
+            Tile tile = map.getTile(player.getX(), player.getY());
+            if (isInstance(tile, TileWithShift.class)) {
+                TileWithShift casted_tile = (TileWithShift) tile;
+                casted_tile.setShift(shift);  // set tile shift to Bike or null
             }
+
         }
-         else if( isDriving && s.equals("l") )       // leaving car
+        else if( isDriving && s.equals("l") )       // leaving car
         {
 
             player.setShift( new WalkShift() );

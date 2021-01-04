@@ -30,11 +30,5 @@ public class LibraryTile extends BuildingTile
         return s;
     }
 
-    @Override
-    public boolean accessible(Player player)
-    {
-        // TODO: conditions to enter the tile
-        return true;
-    }
 }
 
