@@ -11,9 +11,19 @@ public class ForestTile extends Tile
     }
 
     @Override
-    public void enterTile(Player player)
+    public String getASCII() {
+        return COLOR_GREEN + ASCII + "" + COLOR_DEFAULT;
+    }
+
+    @Override
+    public String enterTile(Player player)
     {
-        // TODO: what happens when the player enter the tile
+        if( Math.random() < 0.10 )
+        {
+            player.changeHealth(-10 );
+            return "You got sick from the forest: -10 health. ";
+        }
+        return "You contemplate the trees. ";
     }
 
     @Override

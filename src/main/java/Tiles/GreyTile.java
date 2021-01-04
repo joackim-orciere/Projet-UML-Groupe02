@@ -11,11 +11,6 @@ public class GreyTile extends Tile {
     }
 
     @Override
-    public void enterTile(Player player) {
-        // should never enter this function
-    }
-
-    @Override
     public boolean accessible(Player player) {
         return false; // never accessible
     }

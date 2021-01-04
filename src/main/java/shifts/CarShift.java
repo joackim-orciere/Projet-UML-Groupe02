@@ -1,5 +1,6 @@
 package shifts;
 
+import Tiles.Tile;
 import player.Player;
 
 public class CarShift extends Shift{
@@ -8,6 +9,11 @@ public class CarShift extends Shift{
         super();
         ASCII = '$';
 
+    }
+
+    @Override
+    public String getASCII() {
+        return Tile.COLOR_RED + ASCII + Tile.COLOR_DEFAULT;
     }
 
     @Override

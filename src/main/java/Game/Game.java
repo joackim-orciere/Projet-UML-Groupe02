@@ -15,9 +15,15 @@ public class Game
     private Map map;
     private Player player;
 
-    static int playerType;
-    static int mapType;
-    static String playerName;
+    private static final Scanner scanner = new Scanner(System.in);
+
+    private String eventString = "";
+
+    private int count = 0;
+
+    private int playerType;
+    private int mapType;
+    private String playerName;
 
 
     public void init()
@@ -49,45 +55,51 @@ public class Game
 
     }
 
-    public void start()
-    {
-        // TODO game loop
-    }
-
     public void promptStartOptions()
     {
-        Scanner scanner = new Scanner(System.in);  // Create a Scanner object
 
-        System.out.print("Choisissez votre personnage: \n1: Standard \n2: Hippie \n3: Homme pressé \n -> " );
-        playerType = scanner.nextInt();
-
+        System.out.print("Choose your character: [1/2/3] \n1: Standard \n2: Hippie \n3: Homme pressé \n -> " );
+        try {
+            playerType = scanner.nextInt();
+        }
+        catch( Exception e)
+        {
+            System.out.println("Error, default: Standard");
+            playerType = 1;
+        }
         if( playerType < 1 || playerType > 3 )
         {
-            System.out.println("Erreur, default: Standard");
+            System.out.println("Error, default: Standard");
             playerType = 1;
         }
 
-        System.out.print("Choisissez votre nom: \n -> ");
-        String playerName = scanner.next();
+        System.out.print("Choose your name: \n -> ");
+        scanner.nextLine();
+        playerName = scanner.nextLine();
 
-        System.out.print("Choisissez la taille de la carte: \n1: petite \n2: moyenne \n3: grande \n -> ");
-        mapType = scanner.nextInt();
-
+        System.out.print("Choose the size of the map: [1/2/3] \n1: Small \n2: Medium \n3: Large \n -> ");
+        try {
+            mapType = scanner.nextInt();
+        }
+        catch( Exception e )
+        {
+            System.out.println("Error, default: Medium");
+            mapType = 2;
+        }
         if( mapType < 1 || mapType > 3 )
         {
-            System.out.println("Erreur, default: petite");
-            mapType = 1;
+            System.out.println("Error, default: Medium");
+            mapType = 2;
         }
 
-        System.out.print("Commencer la partie ? [play/quit]: \n -> ");
+        System.out.print("Start the game ? [Y/n]: \n -> ");
         String s = scanner.next();
 
-        if( s.equals("quit") )
+        if( s.equals("N") || s.equals("no") || s.equals("No") || s.equals("n"))
         {
             System.out.println("Exiting game..");
             System.exit(0);
         }
-
 
         System.out.print("\033[H\033[2J"); // clear screen
     }
@@ -99,7 +111,7 @@ public class Game
 
     public void promptChoice()
     {
-        Scanner scanner = new Scanner(System.in);  // Create a Scanner object
+
         System.out.println("z: Up, s: Down, q: Left, d: right");
 
         boolean isDriving = isInstance( player.getShift(), CarShift.class);
@@ -135,12 +147,13 @@ public class Game
         int px = player.getX();
         int py = player.getY();
 
-        if(s.equals("z") || s.equals("w"))
+
+        if(s.equals("z") || s.equals("w"))    // CharAt allow for smoother movement if for exemple "ww" is entered
         {
             if( map.getTile(px + 0, py - 1).accessible( player ) )
             {
                 player.move(Dir.Up);
-                map.getTile( player.getX(), player.getY()).enterTile( player );
+                eventString = map.getTile( player.getX(), player.getY()).enterTile( player );
             }
         }
         else if(s.equals("s"))
@@ -148,7 +161,7 @@ public class Game
             if( map.getTile(px + 0, py + 1).accessible( player ) )
             {
                 player.move(Dir.Down);
-                map.getTile( player.getX(), player.getY()).enterTile( player );
+                eventString = map.getTile( player.getX(), player.getY()).enterTile( player );
             }
         }
         else if(s.equals("q") || s.equals("a"))
@@ -156,7 +169,7 @@ public class Game
             if( map.getTile(px - 1, py + 0).accessible( player ) )
             {
                 player.move(Dir.Left);
-                map.getTile( player.getX(), player.getY()).enterTile( player );
+                eventString = map.getTile( player.getX(), player.getY()).enterTile( player );
             }
         }
         else if(s.equals("d"))
@@ -164,10 +177,10 @@ public class Game
             if( map.getTile(px + 1, py + 0).accessible( player ) )
             {
                 player.move(Dir.Right);
-                map.getTile( player.getX(), player.getY()).enterTile( player );
+                eventString = map.getTile( player.getX(), player.getY()).enterTile( player );
             }
         }
-        else if(s.equals("quit") || s.equals("exit"))
+        else if(s.equals("exit") || s.equals("quit"))
         {
             System.out.println("Exiting game..");
             System.exit(0);
@@ -187,7 +200,7 @@ public class Game
                 casted_tile.setShift( shift );  // set tile shift to Bike or null
             }
         }
-         else if( isDriving && s.equals("l") )       // leaving car
+         else if( isDriving && s.equals("e") )       // leaving car
         {
 
             player.setShift( new WalkShift() );
@@ -209,7 +222,7 @@ public class Game
                 casted_tile.setShift( null );  // set tile shift to null
             }
         }
-        else if( isRiding && s.equals("l" ))        // leaving bike
+        else if( isRiding && s.equals("e"))        // leaving bike
         {
             player.setShift( new WalkShift());
             Tile tile = map.getTile( player.getX(), player.getY() );
@@ -227,9 +240,13 @@ public class Game
         if( !player.isAlive() ) return false; // quit the game
 
         System.out.println(this.getASCII());
+
+        System.out.println(eventString + "\n");
+
         // TODO print event
         System.out.println("Health: " + player.getHealth() + "\t | Hydration: \t" + player.getHydration());
-        System.out.println("Morale: " + player.getMorale() + "\t | Satiety: \t" + player.getSatiety() + "\n");
+        System.out.println("Morale: " + player.getMorale() + "\t | Satiety: \t" + player.getSatiety());
+        System.out.println("Intel:  " + (int) (player.getDiplomaChance()*100) + "%\t | Diplomas: \t" + player.getNbrDiploma() + "\n");
         this.promptChoice();
 
         System.out.print("\033[H\033[2J"); // clear screen
@@ -240,13 +257,45 @@ public class Game
     public static void main(String[] args)  //static method
     {
 
-        Game game = new Game();
-        game.promptStartOptions();
-        game.init();
 
-        while (true)
+        boolean playing = true;
+
+        while( playing )
         {
-            if (!game.loopOnce()) break;
+            System.out.print("\033[H\033[2J"); // clear screen
+
+            Game game = new Game();
+            game.promptStartOptions();
+            game.init();
+
+            while (true) {
+                if (!game.loopOnce()) break;
+                game.count += 1;
+            }
+
+            System.out.println(game.getASCII());
+
+            System.out.println("You Died.\n");
+            System.out.println("----{ Score }----");
+            System.out.println("Name:    \t" + game.playerName);
+            System.out.println("Turns:   \t" + game.count);
+            System.out.println("Diplomas:\t" + game.player.getNbrDiploma() + "\n");
+
+            System.out.println("Play Again ? y/N\n -> ");
+            scanner.nextLine(); // necessary, I don't know why
+            String s = scanner.nextLine();
+
+            if( s.equals("y") || s.equals("Y") )
+            {
+                playing = true;
+            }
+            else
+            {
+                playing = false;
+                System.out.println("Exiting game..");
+            }
         }
+
+        scanner.close();
     }
 }

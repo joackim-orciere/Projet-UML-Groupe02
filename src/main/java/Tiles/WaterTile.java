@@ -11,9 +11,14 @@ public class WaterTile extends Tile
     }
 
     @Override
-    public void enterTile(Player player)
+    public String getASCII() {
+        return COLOR_BLUE + ASCII + "" + COLOR_DEFAULT;
+    }
+
+    @Override
+    public String enterTile(Player player)
     {
-        // TODO: what happens when the player enter the tile
+        return "You feel wet. ";
     }
 
     @Override

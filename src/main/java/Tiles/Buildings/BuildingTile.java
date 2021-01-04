@@ -10,4 +10,10 @@ public abstract class BuildingTile extends Tile
         super();
     }
 
+    @Override
+    public String getASCII() {
+        return Tile.COLOR_PURPLE + ASCII + Tile.COLOR_DEFAULT;
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package shifts;
 
+import Tiles.Tile;
 import player.Player;
 
 public abstract class Shift {
@@ -8,8 +9,13 @@ public abstract class Shift {
 
     public abstract void changeStats(Player player);
 
-    public char getASCII() {
-        return ASCII;
+    public String getASCII() {
+        return ASCII + "";
+    }
+
+    public String getPlayerASCII()
+    {
+        return Tile.COLOR_YELLOW + ASCII + Tile.COLOR_DEFAULT;
     }
 
 

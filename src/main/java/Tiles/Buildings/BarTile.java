@@ -11,9 +11,27 @@ public class BarTile extends BuildingTile
     }
 
     @Override
-    public void enterTile(Player player)
+    public String enterTile(Player player)
     {
-        // TODO: what happens when the player enter the tile
+
+        player.changeMorale(+10 );
+        player.changeHydration(+25 );
+        player.changeHealth(-3 );
+
+        String s = "You drink a lot: +25 hydration, +10 moral, -3 health. ";
+
+        if( Math.random() < 0.25 && !player.getSwimsuit()) // Swimsuit
+        {
+            player.setSwimsuit( true );
+            s += "\nYou also found an old Swimsuit. ";
+        }
+        if( Math.random() < 0.05 ) // sujet
+        {
+            player.changeDiplomaChance(+0.05 );
+            s += "\nYou found the topic of the next exam: +5% chance to graduate.";
+        }
+
+        return s;
     }
 
     @Override

@@ -1,10 +1,8 @@
 package road;
 
-import Tiles.Tile;
 import Tiles.TileWithShift;
 import player.Player;
 import shifts.BikeShift;
-import shifts.CarShift;
 import shifts.WalkShift;
 
 import static Misc.Misc.isInstance;
@@ -17,7 +15,7 @@ public class SideWalkTile extends TileWithShift {
         ASCII = '#';
 
         double roll = Math.random();
-        if( roll < 0.04 )
+        if( roll < 0.034 )
         {
             this.shift = new BikeShift();
         }
@@ -32,10 +30,6 @@ public class SideWalkTile extends TileWithShift {
                (isInstance( player.getShift(), BikeShift.class));  // can enter cars if at foot
     }
 
-    @Override
-    public void enterTile(Player player) {
-        // TODO: what happens when the player enter the tile
-    }
 
 
 }

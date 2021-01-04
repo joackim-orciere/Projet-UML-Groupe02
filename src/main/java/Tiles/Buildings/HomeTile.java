@@ -11,9 +11,12 @@ public class HomeTile extends BuildingTile
     }
 
     @Override
-    public void enterTile(Player player)
+    public String enterTile(Player player)
     {
-        // TODO: what happens when the player enter the tile
+        player.changeMorale(+10);
+        player.changeSatiety(+10);
+        player.changeHydration(+10);
+        return "Home Sweet Home!: +10 morale, satiety and hydration";
     }
 
     @Override

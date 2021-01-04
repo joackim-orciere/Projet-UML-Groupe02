@@ -12,11 +12,6 @@ public class CrossingTile extends Tile {
     }
 
     @Override
-    public void enterTile(Player player) {
-        // should never enter this function
-    }
-
-    @Override
     public boolean accessible(Player player) {
         return true; // always accessible
     }

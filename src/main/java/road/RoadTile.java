@@ -1,6 +1,5 @@
 package road;
 
-import Tiles.Tile;
 import Tiles.TileWithShift;
 import player.Player;
 import shifts.*;
@@ -15,7 +14,7 @@ public class RoadTile extends TileWithShift {
         ASCII = '.';
 
         double roll = Math.random();
-        if( roll < 0.04 )
+        if( roll < 0.024 )
         {
             this.shift = new CarShift();
         }
@@ -33,8 +32,8 @@ public class RoadTile extends TileWithShift {
     }
 
     @Override
-    public void enterTile(Player player)
+    public String enterTile(Player player)
     {
-        // TODO: what happens when the player enter the tile
+        return "";
     }
 }

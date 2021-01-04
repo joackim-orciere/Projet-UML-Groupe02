@@ -11,11 +11,12 @@ public abstract class TileWithShift extends Tile{
         super( );
     }
 
-    public char getASCII() {
+    @Override
+    public String getASCII() {
         if( shift != null )
             return shift.getASCII();
         else
-            return ASCII;
+            return ASCII + "";
     }
 
     public void setShift( Shift shift )
@@ -23,7 +24,10 @@ public abstract class TileWithShift extends Tile{
         this.shift = shift;
     }
 
-    public abstract void enterTile(Player player);
+    public String enterTile(Player player)
+    {
+        return "";
+    }
     public abstract boolean accessible( Player player );
 
 

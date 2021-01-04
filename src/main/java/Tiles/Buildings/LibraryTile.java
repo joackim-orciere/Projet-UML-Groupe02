@@ -11,9 +11,23 @@ public class LibraryTile extends BuildingTile
     }
 
     @Override
-    public void enterTile(Player player)
+    public String enterTile(Player player)
     {
-        // TODO: what happens when the player enter the tile
+        // 20 points de moral.
+        // livre sur le génie logiciel (5 %),
+        // 10 % sur la possibilité d’obtenir son diplôme.
+
+        player.changeMorale(+20);
+        String s = "You enjoy the silence: +20 morale. ";
+
+        if( Math.random() < 0.05 )
+        {
+            player.changeMorale(+20);
+            player.changeDiplomaChance(+0.1);
+            s += "\nYou found a Software Engineering book: +20 morale, +10% chance to graduate";
+        }
+
+        return s;
     }
 
     @Override

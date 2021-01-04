@@ -4,6 +4,8 @@ import Tiles.*;
 import Tiles.Buildings.*;
 import player.Player;
 import road.*;
+import shifts.BikeShift;
+import shifts.CarShift;
 
 import static Misc.Misc.isInstance;
 
@@ -116,6 +118,14 @@ public class Map {
         boolean empty = true;
 
         if (last) {
+            if( !placed_home )
+            {
+                setTile(x + 6, y + 4, HomeTile.class);
+                homeX = x + 6;
+                homeY = y + 4;
+                placed_home = true;
+                empty = false;
+            }
             if (pB != 0) setTile(x + 3, y + 2, BarTile.class);
             if (pF != 0) setTile(x + 4, y + 4, FastFoodTile.class);
             if (pL != 0) setTile(x + 2, y + 3, LibraryTile.class);
@@ -133,6 +143,20 @@ public class Map {
             setTile(x + 9, y + 3, CrossingTile.class);
             setTile(x + 4, y + 6, CrossingTile.class);
             setTile(x + 4, y + 7, CrossingTile.class);
+
+             /*
+             // Always spawn a Car and a Bike near Home
+
+            RoadTile roadWithCar = new RoadTile();
+            roadWithCar.shift = new CarShift();
+
+            SideWalkTile sideWalkwithBike = new SideWalkTile();
+            sideWalkwithBike.shift = new BikeShift();
+
+            tiles[x + 5][y + 5] = sideWalkwithBike;
+            tiles[x + 2][y + 6] = roadWithCar;
+
+             */
 
         } else if (Math.random() < pB / (pB + pF + pL + pU + 0.001)) // bar
         {

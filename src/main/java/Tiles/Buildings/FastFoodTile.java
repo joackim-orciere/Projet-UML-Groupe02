@@ -11,9 +11,13 @@ public class FastFoodTile extends BuildingTile
     }
 
     @Override
-    public void enterTile(Player player)
+    public String enterTile(Player player)
     {
-        // TODO: what happens when the player enter the tile
+        player.changeSatiety(+25);
+        player.changeSatiety(+10);
+        player.changeMorale(+10);
+        player.changeHealth(-5);
+        return "You eat junk food: +25 satiety, +10 hydration, +10 morale, -5 health";
     }
 
     @Override

@@ -16,6 +16,7 @@ public abstract class Player {
     protected int morale;
 
     private String pseudo;
+    private double diplomaChance = 0.3;
     private int nbrDiploma = 0;
     protected boolean driver = true;
     protected boolean swimsuit = false;
@@ -69,9 +70,15 @@ public abstract class Player {
 
     public int getNbrDiploma(){ return this.nbrDiploma;}
 
+    public double getDiplomaChance(){ return this.diplomaChance; }
+
+    public void changeNbrDiploma( int delta ){ nbrDiploma += delta ;}
+
     public boolean getDriver(){ return this.driver;}
 
     public boolean getSwimsuit(){ return this.swimsuit;}
+
+    public void setSwimsuit( boolean b ){ swimsuit = b;}
 
     public int getFines(){ return this.fines;}
 
@@ -98,6 +105,13 @@ public abstract class Player {
         else if(getMorale() > 100){ this.morale = 100; }
     }
 
+    public void changeDiplomaChance( double delta )
+    {
+        this.diplomaChance += delta;
+        if( diplomaChance > 1.0 )
+            diplomaChance = 1.0;
+    }
+
     public void changeHealth( int delta) {
         this.health = this.health + delta;
         this.checkStats();
@@ -118,7 +132,7 @@ public abstract class Player {
         this.checkStats();
     }
 
-    public char getASCII() {
-        return shift.getASCII();
+    public String getASCII() {
+        return shift.getPlayerASCII();
     }
 }
