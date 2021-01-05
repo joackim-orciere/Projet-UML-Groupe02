@@ -1,7 +1,7 @@
-package player;
+package Player;
 
-import shifts.Shift;
-import shifts.WalkShift;
+import Shifts.Shift;
+import Shifts.WalkShift;
 
 public abstract class Player {
     protected int x;

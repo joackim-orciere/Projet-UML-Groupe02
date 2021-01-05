@@ -1,13 +1,14 @@
-package shifts;
+package Shifts;
 
 import Tiles.Tile;
-import player.Player;
+import Player.Player;
 
-public class BikeShift extends Shift{
+public class CarShift extends Shift{
 
-    public BikeShift(){
+    public CarShift(){
         super();
-        ASCII = '%';
+        ASCII = '$';
+
     }
 
     @Override
@@ -15,13 +16,10 @@ public class BikeShift extends Shift{
         return Tile.COLOR_RED + ASCII + Tile.COLOR_DEFAULT;
     }
 
-
     @Override
     public void changeStats(Player player) {
-        player.changeHydration(-5);
-        player.changeSatiety(-5);
+        player.changeMorale(-2);
     }
-
 
 
 }

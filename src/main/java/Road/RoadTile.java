@@ -1,26 +1,42 @@
-package road;
+package Road;
 
 import Tiles.TileWithShift;
-import player.Hippie;
-import player.Player;
-import shifts.*;
+import Player.Hippie;
+import Player.Player;
+import Shifts.*;
+import Traps.PoliceTrap;
+import Traps.PotholeTrap;
+import Traps.RedLightTrap;
+import Traps.Trap;
 
 import static Misc.Misc.isInstance;
 
 public class RoadTile extends TileWithShift {
+
+    Trap trap = null;
 
     public RoadTile( )
     {
         super( );
         ASCII = '.';
 
-        double roll = Math.random();
-        if( roll < 0.032 )
+        if( Math.random() < 0.05 )
         {
             this.shift = new CarShift();
         }
         else
             this.shift = null;
+
+        if( Math.random() < 0.05 )
+        {
+            double roll = Math.random();
+            if( roll < 0.33 )
+                trap = new PoliceTrap();
+            else if( roll < 0.66 )
+                trap = new PotholeTrap();
+            else
+                trap = new RedLightTrap();
+        }
     }
 
 
@@ -35,6 +51,8 @@ public class RoadTile extends TileWithShift {
     @Override
     public String enterTile(Player player)
     {
+        if( trap != null )
+            return trap.activateTrap(player);
         return "";
     }
 }

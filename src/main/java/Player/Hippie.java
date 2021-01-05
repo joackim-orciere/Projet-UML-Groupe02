@@ -1,7 +1,7 @@
-package player;
+package Player;
 
-import shifts.BikeShift;
-import shifts.WalkShift;
+import Shifts.BikeShift;
+import Shifts.WalkShift;
 
 import static Misc.Misc.isInstance;
 

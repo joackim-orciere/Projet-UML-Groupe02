@@ -1,7 +1,7 @@
-package shifts;
+package Shifts;
 
 import Tiles.Tile;
-import player.Player;
+import Player.Player;
 
 public abstract class Shift {
 

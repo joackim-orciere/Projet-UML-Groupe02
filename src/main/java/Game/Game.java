@@ -2,10 +2,9 @@ package Game;
 
 import Tiles.Tile;
 import Tiles.TileWithShift;
-import player.*;
-import shifts.*;
+import Player.*;
+import Shifts.*;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import static Misc.Misc.isInstance;

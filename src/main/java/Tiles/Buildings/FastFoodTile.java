@@ -1,7 +1,7 @@
 package Tiles.Buildings;
 
-import player.Hippie;
-import player.Player;
+import Player.Hippie;
+import Player.Player;
 
 import static Misc.Misc.isInstance;
 

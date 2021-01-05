@@ -1,7 +1,7 @@
 package Tiles;
 
-import player.Player;
-import shifts.Shift;
+import Player.Player;
+import Shifts.Shift;
 
 public abstract class TileWithShift extends Tile{
 

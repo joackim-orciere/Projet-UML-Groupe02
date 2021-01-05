@@ -2,10 +2,8 @@ package Game;
 
 import Tiles.*;
 import Tiles.Buildings.*;
-import player.Player;
-import road.*;
-import shifts.BikeShift;
-import shifts.CarShift;
+import Player.Player;
+import Road.*;
 
 import static Misc.Misc.isInstance;
 

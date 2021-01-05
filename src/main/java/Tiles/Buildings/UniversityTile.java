@@ -1,6 +1,6 @@
 package Tiles.Buildings;
 
-import player.Player;
+import Player.Player;
 
 public class UniversityTile extends BuildingTile
 {

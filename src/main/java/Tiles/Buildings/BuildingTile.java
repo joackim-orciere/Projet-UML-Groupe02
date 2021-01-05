@@ -1,9 +1,9 @@
 package Tiles.Buildings;
 
 import Tiles.Tile;
-import player.Player;
-import shifts.BikeShift;
-import shifts.CarShift;
+import Player.Player;
+import Shifts.BikeShift;
+import Shifts.CarShift;
 
 import static Misc.Misc.isInstance;
 

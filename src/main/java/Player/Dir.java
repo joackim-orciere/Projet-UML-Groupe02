@@ -1,4 +1,4 @@
-package player;
+package Player;
 
 public enum Dir {
     Up,

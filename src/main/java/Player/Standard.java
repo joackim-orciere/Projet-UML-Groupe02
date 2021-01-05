@@ -1,8 +1,8 @@
-package player;
+package Player;
 
-import shifts.BikeShift;
-import shifts.CarShift;
-import shifts.WalkShift;
+import Shifts.BikeShift;
+import Shifts.CarShift;
+import Shifts.WalkShift;
 
 import static Misc.Misc.isInstance;
 
@@ -60,10 +60,10 @@ public class Standard extends Player{
             if( Math.random() < 0.05 ) // Fine
             {
                 changeFines(+1 );
-                s += "You got caught speeding, by the police: Fines: +1";
+                s += "You got caught speeding, by the police: Fines: +1\n";
                 if( getFines() >= 3 )
                 {
-                    s += "\nYou have been put to jail. ";
+                    s += "You have been put to jail. \n";
                 }
             }
         }

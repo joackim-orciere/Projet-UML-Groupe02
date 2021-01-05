@@ -1,8 +1,7 @@
-package player;
+package Player;
 
-import shifts.BikeShift;
-import shifts.CarShift;
-import shifts.WalkShift;
+import Shifts.BikeShift;
+import Shifts.CarShift;
 
 import static Misc.Misc.isInstance;
 
@@ -45,19 +44,19 @@ public class HommePresse extends Player{
 
         if( isInstance( getShift(), CarShift.class ))
         {
+            if( Math.random() < 0.05 ) // Fine
+            {
+                changeFines(+1 );
+                s += "You got caught speeding, by the police: Fines: +1\n";
+                if( getFines() >= 3 )
+                {
+                    s += "You have been put to jail. \n";
+                }
+            }
             if( Math.random() < 0.02 ) // Accident
             {
                 s += "You had a car crash\n";
                 kill();
-            }
-            if( Math.random() < 0.05 ) // Fine
-            {
-                changeFines(+1 );
-                s += "You got caught speeding, by the police: Fines: +1";
-                if( getFines() >= 3 )
-                {
-                    s += "\nYou have been put to jail. ";
-                }
             }
         }
         else if( isInstance( getShift(), BikeShift.class ))
