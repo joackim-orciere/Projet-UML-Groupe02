@@ -4,56 +4,29 @@ import Shifts.Shift;
 import Shifts.WalkShift;
 
 public abstract class Player {
-    protected int x;
+    protected int x;        // player coordinates
     protected int y;
-    public int prev_x;
-    public int prev_y;
-    private Shift shift;
+    private Shift shift;    // player's shift
 
-    protected int health;
+    protected int health;       // player stats
     protected int hydration;
     protected int satiety;
     protected int morale;
 
-    private String pseudo;
-    private double diplomaChance = 0.3;
-    private int nbrDiploma = 0;
-    protected boolean driver = true;
-    protected boolean swimsuit = false;
-    protected int fines = 0;
+    private double diplomaChance = 0.3; // probability to obtain a diploma when entering University
+    private int nbrDiploma = 0;         // number of diploma obtained
+    protected boolean swimsuit = false; // whether or not the player has obtained the swimsuit, findable at the bar
+    protected int fines = 0;            // number of fines obtained
     protected boolean alive = true;
 
     protected Player(int x, int y, String pseudo) {
         this.x = x;
         this.y = y;
-        this.pseudo = pseudo;
         this.shift = new WalkShift(); // default shift
     }
 
-    public String move(Dir dir )
-    {
+    public abstract String move(Dir dir );
 
-        switch (dir) {
-            case Up:
-                prev_y = y;
-                y += -1;
-                break;
-            case Down:
-                prev_y = y;
-                y += 1;
-                break;
-            case Left:
-                prev_x = x;
-                x += -1;
-                break;
-            case Right:
-                prev_x = x;
-                x += 1;
-                break;
-        }
-
-        return "";
-    }
 
     //Getters
     public int getX(){ return this.x;}
@@ -68,15 +41,11 @@ public abstract class Player {
 
     public int getMorale(){ return this.morale;}
 
-    public String getPseudo(){ return this.pseudo;}
-
     public int getNbrDiploma(){ return this.nbrDiploma;}
 
     public double getDiplomaChance(){ return this.diplomaChance; }
 
     public void changeNbrDiploma( int delta ){ nbrDiploma += delta ;}
-
-    public boolean getDriver(){ return this.driver;}
 
     public boolean getSwimsuit(){ return this.swimsuit;}
 
@@ -88,10 +57,10 @@ public abstract class Player {
 
     public Shift getShift(){ return this.shift;}
 
-    public void setShift( Shift shift ){ this.shift = shift;}
-
     //Setters
     public void kill(){ this.alive = false;}
+
+    public void setShift( Shift shift ){ this.shift = shift;}
 
     public void changeFines( int delta )
     {

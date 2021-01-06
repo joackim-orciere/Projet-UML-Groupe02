@@ -21,19 +21,15 @@ public class HommePresse extends Player{
 
         switch (dir) {
             case Up:
-                prev_y = y;
                 y += -1;
                 break;
             case Down:
-                prev_y = y;
                 y += 1;
                 break;
             case Left:
-                prev_x = x;
                 x += -1;
                 break;
             case Right:
-                prev_x = x;
                 x += 1;
                 break;
         }

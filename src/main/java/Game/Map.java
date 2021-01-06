@@ -36,45 +36,61 @@ public class Map {
 
     }
 
-    public void generateMap() // TODO proper map generation
+    // This method is a bit of a mess
+    // everything below is an attempt at semi-random generation
+    public void generateMap() // Method to generate map with randomness
     {
+        // Generate empty map
         for (int y = 0; y < m; y++) {
             for (int x = 0; x < n; x++) {
                 tiles[x][y] = new GreyTile();
             }
         }
 
+        // This method generate the map using Neighbours
+
         // a neighbour is a square of 7 x 5, 9 x 7 counting the sidewalks and roads
+        // example of map :
         //
-        //  .........
-        //  .#######.
-        //  .#H   U#.
-        //  .#     #.
-        //  .#  B  #.
-        //  .#######.
-        //  .........
+        //      ....+......................
+        //      .#######..#######$.#######.
+        //      .# B   #..#     #..#~~~~~#.
+        //      +#     %++#    U#++#~~~~~#.
+        //      .%    H#..#     #..#~~~~~#.
+        //      .#######..#######..##%####.
+        //      ....+.....$..+.......$+..$.
+        //      ....+........+........+....
+        //      .######%..#######..%#####%.
+        //      .#AAAAA#..#     #..#     #.
+        //      +%AAAAA&++%     #++#L    #+
+        //      .#AAAAA#..#     %..#  F  #.
+        //      $%####%#..###%###..#######.
+        //      ....+......$...............
 
         int nx = (int) Math.ceil(n / 9.0); // divide by 8
         int ny = (int) Math.ceil(m / 7.0); // divide by 6
 
-        pB = 6.0 / (nx * ny);
+        pB = 6.0 / (nx * ny);   // probability for a building to appear in a neighbour
         pU = pB;
         pL = pB;
         pF = pB;
 
         for (int y = 0; y < ny; y++) {
             for (int x = 0; x < nx; x++) {
+
+                // find starting point for neightbours
                 int cx = x * 9;
                 int cy = y * 7;
 
 
-                if (x == nx - 1 && y == ny - 1)
+                if (x == nx - 1 && y == ny - 1) // if last neighbours, generate every missing building inside it
                 {
                     generateBuildingNeighbour(cx, cy, true);
                 }
                 else {
                     boolean empty = generateBuildingNeighbour(cx, cy, false);
-                    if (empty && placed_home) {
+                    if (empty && placed_home) // if no building was placed in the neighbour -> generate park or pool
+                    {
                         if (Math.random() < pPool ) {
                             generatePoolNeighbour(cx, cy);
                             pPool = 0;
@@ -91,6 +107,7 @@ public class Map {
         }
     }
 
+    // get the whole map ASCII representation in ASCII with colors
     public String getASCII(Player player) {
         String s = "";
         for (int y = 0; y < m; y++) {
@@ -105,7 +122,50 @@ public class Map {
         return s;
     }
 
+    // HELPER FUNCTIONS
 
+    // set a whole rectangle to a certain Tile class setRect( 1, 3, 5, 9 WaterTile.class );
+    public void setRect(int x1, int y1, int x2, int y2, Class c) {
+        int dx = x2 - x1;
+        int dy = y2 - y1;
+
+        for (int x = 0; x < dx; x++) {
+            for (int y = 0; y < dy; y++) {
+                setTile(x1 + x, y1 + y, c);
+            }
+        }
+    }
+
+    // set a speficic tile to a certain Tile class setTile( 1, 3, WaterTile.class );
+    public void setTile(int x, int y, Class c) {
+
+        Tile obj = new WaterTile();
+        try {
+            obj = (Tile) c.getConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        Tile decoy = new WaterTile();
+        if (x >= n || x < 0 || y >= m || y < 0) // outside
+            return;
+        else if ( isInstance(tiles[x][y], CrossingTile.class) )
+            return;
+        else
+            tiles[x][y] = obj;
+    }
+
+    public Tile getTile(int x, int y) {
+        // decoy object to be returned if out of bound -> avoid null pointer
+        Tile decoy = new WaterTile();
+        if (x >= n || x < 0 || y >= m || y < 0)
+            return decoy;
+        else
+            return tiles[x][y];
+    }
+
+    // generate a Neighbour, possibly with buildings and return true, if not return false;
     public boolean generateBuildingNeighbour(int x, int y, boolean last) {
         setRect(x, y, x + 9, y + 7, RoadTile.class);
         setRect(x + 1, y + 1, x + 8, y + 6, SideWalkTile.class);
@@ -117,14 +177,16 @@ public class Map {
 
         boolean empty = true;
 
-        if (last) {
+        if (last) // set every missing building if this is the last Neighbour
+        {
             if (pB != 0) setTile(x + 3, y + 2, BarTile.class);
             if (pF != 0) setTile(x + 4, y + 4, FastFoodTile.class);
             if (pL != 0) setTile(x + 2, y + 3, LibraryTile.class);
             if (pU != 0) setTile(x + 6, y + 3, UniversityTile.class);
             empty = false;
         }
-        if (!placed_home) {
+        if (!placed_home) // position home if not already
+        {
             setTile(x + 6, y + 4, HomeTile.class);
             homeX = x + 6;
             homeY = y + 4;
@@ -150,24 +212,31 @@ public class Map {
             tiles[x + 2][y + 6] = roadWithCar;
 
              */
-
         }
+
+        /*
+         *  pB / (pB + pF + pL + pU  -> probability for a bar to appear in a neighbour
+         *
+         *  - set to 0 if already placed in a neighbour
+         *  - when a build is placed the probability for all others to be placed increase
+         */
+
         if (Math.random() < pB / (pB + pF + pL + pU + 0.001)) // bar
         {
             roll = Math.random();
-            if (roll < pB || last) {
-                pB = 0;
+            if (roll < pB) {
+                pB = 0;             // probability to have a bar next time nullified.
                 setTile(x + 3, y + 2, BarTile.class);
                 empty = false;
             } else {
-                pB = pB * 2.0;
+                pB = pB * 2.0;      // probability to have a bar next time reinforced.
                 if (pB > 1) pB = 1;
             }
         }
         else if (Math.random() < pF / (pF + pB + pL + pU + 0.001)) // fastfood
         {
             roll = Math.random();
-            if (roll < pF || last) {
+            if (roll < pF) {
                 pF = 0;
                 setTile(x + 4, y + 4, FastFoodTile.class);
                 empty = false;
@@ -179,7 +248,7 @@ public class Map {
         else if (Math.random() < pL / (pL + pF + pB + pU + 0.001)) // library
         {
             roll = Math.random();
-            if (roll < pL || last) {
+            if (roll < pL) {
                 pL = 0;
                 setTile(x + 2, y + 3, LibraryTile.class);
                 empty = false;
@@ -206,6 +275,7 @@ public class Map {
     }
 
 
+    // Generate crossing between neighbours
     public void generateCrossings(int x, int y) {
         double threshold = 0.4;
         if (Math.random() < threshold ) {
@@ -226,14 +296,7 @@ public class Map {
         }
     }
 
-    public void generateBigParkNeighbour(int x, int y) {
-        setRect(x, y, x + 9, y + 7, RoadTile.class);
-        setRect(x + 1, y + 1, x + 8, y + 6, SideWalkTile.class);
-        setRect(x + 2, y + 2, x + 7, y + 5, ForestTile.class);
-
-        generateCrossings(x, y);
-    }
-
+    // generate half tree half water neighbour
     public void generateThingNeighbour(int x, int y) {
         setRect(x, y, x + 9, y + 7, RoadTile.class);
         setRect(x + 1, y + 1, x + 8, y + 6, SideWalkTile.class);
@@ -250,6 +313,7 @@ public class Map {
 
     }
 
+    // generate park neighbours (full of trees)
     public void generateSmallParkNeighbour(int x, int y) {
         setRect(x, y, x + 9, y + 7, RoadTile.class);
         setRect(x + 1, y + 1, x + 8, y + 6, SideWalkTile.class);
@@ -258,6 +322,7 @@ public class Map {
         generateCrossings(x, y);
     }
 
+    // generate pool neighbours (full of water)
     public void generatePoolNeighbour(int x, int y) {
         setRect(x, y, x + 9, y + 7, RoadTile.class);
         setRect(x + 1, y + 1, x + 8, y + 6, SideWalkTile.class);
@@ -265,46 +330,5 @@ public class Map {
 
         generateCrossings(x, y);
     }
-
-    // set a whole rectangle
-    public void setRect(int x1, int y1, int x2, int y2, Class c) {
-        int dx = x2 - x1;
-        int dy = y2 - y1;
-
-        for (int x = 0; x < dx; x++) {
-            for (int y = 0; y < dy; y++) {
-                setTile(x1 + x, y1 + y, c);
-            }
-        }
-    }
-
-    public void setTile(int x, int y, Class c) {
-
-        Tile obj = new WaterTile();
-        try {
-            obj = (Tile) c.getConstructor().newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        Tile decoy = new WaterTile();
-        if (x >= n || x < 0 || y >= m || y < 0) // outside
-            return;
-        else if ( isInstance(tiles[x][y], CrossingTile.class) )
-            return;
-        else
-        tiles[x][y] = obj;
-    }
-
-    public Tile getTile(int x, int y) {
-        // decoy object to be returned if out of bond
-        Tile decoy = new WaterTile();
-        if (x >= n || x < 0 || y >= m || y < 0)
-            return decoy;
-        else
-            return tiles[x][y];
-    }
-
 
 }

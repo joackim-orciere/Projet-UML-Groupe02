@@ -16,12 +16,4 @@ public class BikeShift extends Shift{
     }
 
 
-    @Override
-    public void changeStats(Player player) {
-        player.changeHydration(-5);
-        player.changeSatiety(-5);
-    }
-
-
-
 }

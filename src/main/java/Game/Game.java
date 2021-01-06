@@ -11,18 +11,18 @@ import static Misc.Misc.isInstance;
 
 public class Game
 {
-    private Map map;
-    private Player player;
+    private Map map;        // map entity
+    private Player player;  // player entity
 
-    private static final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in); // used for inputs, avoid having severals
 
-    private String eventString = "";
+    private String eventString = "";    // used to display events to the player in loopOnce()
 
-    private int count = 0;
+    private int count = 0;              // number of turns passed
 
-    private int playerType;
-    private int mapType;
-    private String playerName;
+    private int playerType;             //
+    private int mapType;                //  > what options the player selected in promptStartOptions
+    private String playerName;          //
 
 
     public void init()
@@ -54,7 +54,7 @@ public class Game
 
     }
 
-    public void promptStartOptions()
+    public void promptStartOptions() // prompt the player for options ( character type, map size, player name etc.. )
     {
 
         System.out.print("Choose your character: [1/2/3] \n1: Standard \n2: Hippie \n3: Homme pressé \n -> " );
@@ -103,12 +103,12 @@ public class Game
         System.out.print("\033[H\033[2J"); // clear screen
     }
 
-    public String getASCII()
+    public String getASCII() // return the map with the player written on top of it;
     {
         return map.getASCII( player );
     }
 
-    public void promptChoice()
+    public void promptChoice() // prompt choices of action ( like movement or entering/leaving a car )
     {
 
         eventString = "";
@@ -236,7 +236,7 @@ public class Game
 
     }
 
-    public boolean loopOnce()
+    public boolean loopOnce() // one game loop -> display map, display event -> prompt choices
     {
         if( !player.isAlive() ) return false; // quit the game
 
@@ -256,7 +256,7 @@ public class Game
         return true;
     }
 
-    public static void main(String[] args)  //static method
+    public static void main(String[] args)  // loop while alive, game over if not, can restart if needed
     {
 
 
@@ -270,10 +270,12 @@ public class Game
             game.promptStartOptions();
             game.init();
 
-            while (true) {
-                if (!game.loopOnce()) break;
+            while (game.loopOnce()) // while alive, play
+            {
                 game.count += 1;
             }
+
+            // character died -> display game over
 
             System.out.println(game.getASCII());
 
@@ -289,8 +291,11 @@ public class Game
             System.out.println("Turns:   \t" + game.count);
             System.out.println("Diplomas:\t" + game.player.getNbrDiploma() + "\n");
 
+            // prompt to play again
+
             System.out.println("Play Again ? y/N\n -> ");
-            scanner.nextLine(); // necessary, I don't know why
+            scanner.nextLine(); // necessary, I don't know why but nextLine does not work if there is not an empty one before it
+                                // could use next() instead, but it errors out if entering spaces or sentences, when nextLine() doesn't
             String s = scanner.nextLine();
 
             if( s.equals("y") || s.equals("Y") )

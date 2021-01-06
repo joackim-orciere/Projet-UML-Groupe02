@@ -12,7 +12,6 @@ public class Hippie extends Player{
         hydration = 50;
         satiety = 50;
         morale = 100;
-        driver = false;
     }
 
     @Override
@@ -24,24 +23,20 @@ public class Hippie extends Player{
     }
 
     @Override
-    public String move(Dir dir )
+    public String move(Dir dir ) // move the coordinate of the player, apply malus
     {
 
         switch (dir) {
             case Up:
-                prev_y = y;
                 y += -1;
                 break;
             case Down:
-                prev_y = y;
                 y += 1;
                 break;
             case Left:
-                prev_x = x;
                 x += -1;
                 break;
             case Right:
-                prev_x = x;
                 x += 1;
                 break;
         }

@@ -16,10 +16,4 @@ public class CarShift extends Shift{
         return Tile.COLOR_RED + ASCII + Tile.COLOR_DEFAULT;
     }
 
-    @Override
-    public void changeStats(Player player) {
-        player.changeMorale(-2);
-    }
-
-
 }
